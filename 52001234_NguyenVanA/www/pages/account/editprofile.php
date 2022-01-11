@@ -1,7 +1,9 @@
 <?php
     use Models\Users;
     validateLogin(true, false);//check account login
-    // $accountInfo = Users::where('username', $_SESSION['username'])->first();
+    $accountInfo = Users::where('username', $_SESSION['username'])
+                  ->leftJoin('phongban', 'phongban.id', '=', 'users.phongban_id')
+                  ->first(["phongban.ten"]);
 ?>
 
 <div class="page-content d-flex align-items-center justify-content-center">
@@ -29,6 +31,13 @@
                 <div class="form-group has-feedback">
                   <label for="role">Quyền hạn</label>
                   <input value="<?php echo roleTitle[$_SESSION['role']];?>" type="text" class="form-control" id="role" name="role" autocomplete="current-role" placeholder="Quyền hạn" readonly/>
+                  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                  <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group has-feedback">
+                  <label for="phongban_id">Phòng ban</label>
+                  <input value="<?php echo $accountInfo["ten"] ?? "";?>" type="text" class="form-control" id="phongban_id" name="phongban_id" autocomplete="current-phongban_id" placeholder="Phòng ban" readonly/>
                   <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                   <div class="help-block with-errors"></div>
                 </div>

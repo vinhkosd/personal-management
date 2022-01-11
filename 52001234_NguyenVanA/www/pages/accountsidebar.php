@@ -24,25 +24,13 @@
 										<li class="nav-item">
 											<a href="?page=pages/account/editprofile" class="nav-link">
 												<i data-feather="user"></i>
-												<span>Profile</span>
-											</a>
-										</li>
-										<li class="nav-item">
-											<a href="javascript:;" class="nav-link">
-												<i data-feather="edit"></i>
-												<span>Edit Profile</span>
-											</a>
-										</li>
-										<li class="nav-item">
-											<a href="<?php homePath();?>?page=pages/auth/logout" class="nav-link">
-												<i data-feather="repeat"></i>
-												<span>Switch User</span>
+												<span>Thông tin</span>
 											</a>
 										</li>
 										<li class="nav-item">
 											<a href="<?php homePath();?>?page=pages/auth/logout" class="nav-link">
 												<i data-feather="log-out"></i>
-												<span>Log Out</span>
+												<span>Đăng xuất</span>
 											</a>
 										</li>
 									</ul>
