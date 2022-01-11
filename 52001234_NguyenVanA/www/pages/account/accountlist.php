@@ -64,13 +64,6 @@ checkPermission("admin", true);
 						<input type="text" class="form-control" id="imageurl" name="imageurl"/>
 					</div>
 					<div class="form-group">
-						<label for="role" class="col-form-label">Quyền hạn:</label>
-						<select class="form-control" name="role" required>
-	                        	<option value="user">Nhân viên</option>
-	                        	<option value="admin">Trưởng phòng</option>
-						</select>
-					</div>
-					<div class="form-group">
 						<label for="active" class="col-form-label">Khoá tài khoản:</label>
 						<select class="form-control" name="active" required>
 	                        	<option value="0">Không khoá</option>
@@ -117,13 +110,6 @@ checkPermission("admin", true);
 					<div class="form-group">
 						<label for="imageurl" class="col-form-label">Ảnh đại diện:</label>
 						<input type="text" class="form-control" id="imageurl" name="imageurl"/>
-					</div>
-					<div class="form-group">
-						<label for="role" class="col-form-label">Quyền hạn:</label>
-						<select class="form-control" name="role" required>
-	                        	<option value="user">Nhân viên</option>
-	                        	<option value="admin">Trưởng phòng</option>
-						</select>
 					</div>
 					<div class="form-group">
 						<label for="active" class="col-form-label">Khoá tài khoản:</label>

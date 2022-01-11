@@ -340,8 +340,8 @@
 
                 return `	<div>
                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#viewTask" data-task="">Xem Task</button>
-                            ${canSubmitTask && row.assign_id == window.accountId ?  `<button type="button" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#editTask" data-task="">Submit</button>` : ``}
-                            ${canStartTask && row.assign_id == window.accountId ?  `<button type="button" class="btn btn-primary btn-start" data-task="">Start</button>` : ``}
+                            ${canSubmitTask && row.assign_id == window.accountId ? `<button type="button" class="btn btn-primary btn-edit" data-toggle="modal" data-target="#editTask" data-task="">Submit</button>` : ``}
+                            ${canStartTask && row.assign_id == window.accountId ? `<button type="button" class="btn btn-primary btn-start" data-task="">Start</button>` : ``}
                             ${window.accountRole != "user" && actionButtontext != "" ? `<button type="button" class="btn btn-primary btn-reject" data-task="">${actionButtontext}</button>` : ''}
                             ${window.accountRole != "user" && canAcceptTask ? `<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#acceptTask" data-task="">Accept Task</button>` : ''}
                           </div>`;
@@ -702,7 +702,7 @@
       })
 
       $('#editPhongBan').on('show.bs.modal', function (event) {
-        
+
         var button = $(event.relatedTarget) // Button that triggered the modal
 
         var phongbanData = (button.data('phongban')) // Extract info from data-* attributes
@@ -717,7 +717,7 @@
       });
 
       $('#viewPhongBan').on('show.bs.modal', function (event) {
-        
+
         var button = $(event.relatedTarget) // Button that triggered the modal
 
         var phongbanData = (button.data('phongban')) // Extract info from data-* attributes
@@ -960,7 +960,7 @@
       })
 
       $('#editAccount').on('show.bs.modal', function (event) {
-        
+
         var button = $(event.relatedTarget) // Button that triggered the modal
 
         var accountData = (button.data('account')) // Extract info from data-* attributes
@@ -975,7 +975,7 @@
       });
 
       $('#viewAccount').on('show.bs.modal', function (event) {
-        
+
         var button = $(event.relatedTarget) // Button that triggered the modal
 
         var accountData = (button.data('account')) // Extract info from data-* attributes

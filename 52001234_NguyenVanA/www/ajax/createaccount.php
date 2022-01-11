@@ -7,14 +7,16 @@ validateLogin(true, false);//check account login
 requirePerm("god");
 
 if(isset($_POST)){
-    $input = collect($_POST)->only(['name', 'imageurl', 'username', 'active', 'role', 'phongban_id'])->toArray();
+    $input = collect($_POST)->only(['name', 'imageurl', 'username', 'active', 'phongban_id'])->toArray();
 
     $phongBanInfo = Users::where('id', $input['phongban_id'])->first();
 
     $accountInfo = Users::where('username', $input['username'])->first();
     
     $input['active'] = boolval($input['active']);
-    
+
+    $input['role'] = "user";
+
     if(empty($phongBanInfo)) {
         echo(json_encode(['error' => 'Phòng ban không hợp lệ!']));
         die();
