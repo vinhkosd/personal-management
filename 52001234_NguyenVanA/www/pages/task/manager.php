@@ -24,8 +24,7 @@ checkPermission("user", true);
 								<?php
 								}
 								?>
-
-								<a id="reloadTaskData" href="javascript:void(0)"> Tải lại </a>
+								<button type="button" class="btn btn-primary" id="reloadTaskData">Tải lại</button>
 							</p>
 							<div class="table-responsive">
 							<table id="dataTableTask" class="table">
@@ -67,9 +66,7 @@ checkPermission("user", true);
 					</div>
 					<div class="form-group">
 						<label for="mo_ta" class="col-form-label">Mô tả:</label>
-						<textarea type="text" class="form-control" name="mo_ta" rows="8" cols="50" required>
-                		</textarea>
-						<!-- <input type="text"  id="mo_ta" name="mo_ta" class="form-control" required/> -->
+						<textarea type="text" class="form-control" name="mo_ta" rows="8" cols="50" required></textarea>
 					</div>
 					<div class="form-group">
 						<label for="deadlinedate" class="col-form-label">Deadline:</label>
@@ -127,9 +124,7 @@ checkPermission("user", true);
 					
 					<div class="form-group">
 						<label for="mo_ta" class="col-form-label">Mô tả:</label>
-						<textarea type="text" class="form-control" name="mo_ta" rows="8" cols="50" required>
-                		</textarea>
-						<!-- <input type="text"  id="mo_ta" name="mo_ta" class="form-control" required/> -->
+						<textarea type="text" class="form-control" name="mo_ta" rows="8" cols="50" required></textarea>
 					</div>
 
 					<?php if (checkPermission("admin"))
@@ -197,8 +192,7 @@ checkPermission("user", true);
 					
 					<div class="form-group">
 						<label for="mo_ta" class="col-form-label">Mô tả:</label>
-						<textarea type="text" class="form-control" name="mo_ta" rows="8" cols="50" readonly>
-                		</textarea>
+						<textarea type="text" class="form-control" name="mo_ta" rows="8" cols="50" readonly></textarea>
 					</div>
 
 					<div class="form-group">
@@ -276,8 +270,7 @@ checkPermission("user", true);
 
 					<div class="form-group">
 						<label for="mo_ta" class="col-form-label">Mô tả:</label>
-						<textarea type="text" class="form-control" name="mo_ta" rows="8" cols="50" readonly>
-                		</textarea>
+						<textarea type="text" class="form-control" name="mo_ta" rows="8" cols="50" readonly></textarea>
 					</div>
 
 					<div class="form-group">

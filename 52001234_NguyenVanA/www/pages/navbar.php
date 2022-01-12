@@ -62,7 +62,7 @@
               </ul>
             </div>
           </li>
-
+          
           <li class="nav-item nav-category">Nghỉ phép</li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#absent" role="button" aria-expanded="false" aria-controls="account">
@@ -73,14 +73,12 @@
             <div class="collapse" id="absent">
               <ul class="nav sub-menu">
                 <li class="nav-item">
-                  <a href="<?php homePath();?>?page=pages/absent/register" class="nav-link">Đăng ký nghỉ phép</a>
-                </li>
-                <li class="nav-item">
-                  <a href="<?php homePath();?>?page=pages/absent/manager" class="nav-link">Quản lý ngày nghỉ phép</a>
+                  <a href="<?php homePath();?>?page=pages/absent/manager" class="nav-link">Quản lý nghỉ phép</a>
                 </li>
               </ul>
               </div>
           </li>
+         
         </ul>
       </div>
     </nav>

@@ -21,7 +21,7 @@ if(isset($_POST)){
 
 
     $_SESSION['tmpfiles'] = !empty($_SESSION['tmpfiles']) ? $_SESSION['tmpfiles'] : [];
-    $_SESSION['accepttmpfiles'] = true;
+    $_SESSION['accepttmpfiles'] = false;
 
     if(empty($taskInfo)){
         echo(json_encode(['error' => 'Task không tồn tại vui lòng thử lại!']));

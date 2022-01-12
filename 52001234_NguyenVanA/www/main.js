@@ -610,26 +610,6 @@
         return false;
       });
 
-      function confirmModal(content, nextaction) {
-        $('#confirmModal').find('.modal-body span').html(content);
-        $('#confirmModal').find('.modal-title').html(content);
-        $('#confirmModal').modal();
-
-        $('#confirmModal .modal-footer button.btn-primary').bind("click", function () {
-          $('#confirmModal .modal-footer button.btn-primary').unbind("click");
-
-          nextaction();
-          $('#confirmModal').modal('hide');
-          $('#confirmModal .modal-footer button.btn-primary').off();
-          return false;
-        });
-      }
-
-      $('#confirmModal').on('hidden.bs.modal', function () {
-        $('#confirmModal .modal-footer button.btn-primary').off();
-        $('#confirmModal .modal-footer button.btn-primary').unbind("click");
-      });
-
       function getUserList() {
         $.get(window.homePath + "ajax/userlist.php", { role: "user" }, (data) => {
 
@@ -771,26 +751,6 @@
 
       $('#createPhongBan').on('hidden.bs.modal', function (e) {
         $('#createPhongBanForm')[0].reset();
-      });
-
-      function confirmModal(content, nextaction) {
-        $('#confirmModal').find('.modal-body span').html(content);
-        $('#confirmModal').find('.modal-title').html(content);
-        $('#confirmModal').modal();
-
-        $('#confirmModal .modal-footer button.btn-primary').bind("click", function () {
-          $('#confirmModal .modal-footer button.btn-primary').unbind("click");
-
-          nextaction();
-          $('#confirmModal').modal('hide');
-          $('#confirmModal .modal-footer button.btn-primary').off();
-          return false;
-        });
-      }
-
-      $('#confirmModal').on('hidden.bs.modal', function () {
-        $('#confirmModal .modal-footer button.btn-primary').off();
-        $('#confirmModal .modal-footer button.btn-primary').unbind("click");
       });
 
       function getUserList() {
@@ -1032,25 +992,6 @@
         $('#createAccountForm')[0].reset();
       });
 
-      function confirmModal(content, nextaction) {
-        $('#confirmModal').find('.modal-body span').html(content);
-        $('#confirmModal').find('.modal-title').html(content);
-        $('#confirmModal').modal();
-
-        $('#confirmModal .modal-footer button.btn-primary').bind("click", function () {
-          $('#confirmModal .modal-footer button.btn-primary').unbind("click");
-          nextaction();
-          $('#confirmModal').modal('hide');
-          $('#confirmModal .modal-footer button.btn-primary').off();
-          return false;
-        });
-      }
-
-      $('#confirmModal').on('hidden.bs.modal', function () {
-        $('#confirmModal .modal-footer button.btn-primary').off();
-        $('#confirmModal .modal-footer button.btn-primary').unbind("click");
-      });
-
       $.get(window.homePath + "ajax/phongbanlist.php", {}, (data) => {
 
         $.each(data, function (key, value) {
@@ -1061,5 +1002,353 @@
         });
       }, "json");
     }
+    
+    
+    if ($('#dataTableAbsent').length > 0) {
+      initDatePicker('deadlinedate');
+      initDatePicker('deadlinedateedit');
+
+      $("#fileDropZone").dropzone({
+        dictDefaultMessage: 'Bạn có thể kéo file hoặc click để chọn file',
+        init: function () {
+          this.on("success", function (file, response) {
+            var fileresponse = { nome: file.name, link: response[0] };
+            file.previewElement.classList.add("dz-success");
+          });
+
+          this.on("error", function (file, error, xhr) {
+            var fileresponse = { nome: file.name, status: xhr.status, statusText: xhr.statusText, erro: error.message };
+          });
+        }
+      })
+
+      $("#createAbsentFileDropZone").dropzone({
+        dictDefaultMessage: 'Bạn có thể kéo file hoặc click để chọn file',
+        init: function () {
+          this.on("success", function (file, response) {
+            var fileresponse = { nome: file.name, link: response[0] };
+            file.previewElement.classList.add("dz-success");
+          });
+
+          this.on("error", function (file, error, xhr) {
+            var fileresponse = { nome: file.name, status: xhr.status, statusText: xhr.statusText, erro: error.message };
+          });
+        }
+      })
+
+      function limitCharacter(str, max, suffix = '...') {
+        if (str.length <= max) return str;
+
+        let strGioiHan = '';
+        let nextStr = '';
+        if (typeof (max) === 'number') {
+          strGioiHan = str.substr(0, max);
+          nextStr = str.substr(str.length - 3 < max ? str.length : str.length - 3, 3)
+        }
+        else {
+          strGioiHan = str.substr(0, 30);
+        }
+        return strGioiHan + suffix + nextStr;
+      }
+
+
+      var dt = [];
+      function loadAbsentList() {
+        var currentPage = $('#dataTableAbsent').DataTable().page.info().page;
+        dt = $('#dataTableAbsent').DataTable().destroy();
+        // $('#dataTableAbsent tbody').html("Loading...");
+        dt = $('#dataTableAbsent').DataTable({
+          "aLengthMenu": [
+            [10, 30, 50, -1],
+            [10, 30, 50, "Tất cả"]
+          ],
+          "iDisplayLength": 10,
+          "language": {
+            search: ""
+          },
+          "processing": true,
+          "serverSide": true,
+          "ajax": window.homePath + "ajax/listabsent.php",
+          "order": [[0, "desc"]],
+          "columns": [
+            { "data": "id" },
+            { "data": "register_name" },
+            { "data": "time" },
+            { "data": "countdate" },
+            {
+              "data": "status",
+              render: function (data, type, row, meta) {
+                var returnText = "";
+                switch (row.status) {
+                  case 0:
+                    returnText = "Đang chờ";
+                    break;
+                  case 1:
+                    returnText = "Đồng ý";
+                    break;
+                  case 2:
+                    returnText = "Từ chối";
+                    break;
+                }
+                return returnText;
+              }
+            },
+            {
+              "class": "function-button",
+              "orderable": false,
+              "data": null,
+              render: function (data, type, row, meta) {
+                let canAcceptAbsent = false;
+                let canRejectAbsent = false;
+                switch (row.status) {
+                  case 0:
+                    canRejectAbsent = true;
+                    canAcceptAbsent = true;
+                    //Chưa nhận
+                    break;
+                  default:
+                    //Đã chấp thuận
+                    canAcceptAbsent = false;
+                    canRejectAbsent = false;
+                    break;
+                }
+
+                return `	<div>
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#viewAbsent" data-task="">Xem thông tin</button>
+                            ${row.register_id != window.accountId && canRejectAbsent ? `<button type="button" class="btn btn-primary btn-reject" data-task="">Từ chối</button>` : ''}
+                            ${row.register_id != window.accountId && canAcceptAbsent ? `<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#acceptAbsent" data-task="">Đồng ý</button>` : ''}
+                          </div>`;
+              }
+            },
+          ]
+        });
+
+        dt.on('draw', function () {
+          if(dt.ajax.json()) {
+            var dataJson = dt.ajax.json();
+            if(dataJson.absentRemain){
+              $("#absent-remain").html(dataJson.absentRemain);
+              $("#absent-max").html(dataJson.absentMax);
+              $("#absent-total").html(dataJson.absentTotal);
+            }
+          }
+          $('#dataTableAbsent tbody').on('click', 'tr td.function-button', function () {
+            var tr = $(this).closest('tr');
+            var row = $('#dataTableAbsent').DataTable().row(tr);
+            var rowData = row.data();
+            $(this).find('button').attr('data-task', JSON.stringify(rowData));
+          });
+
+          $('.btn-reject').click(function (e) {
+            e.preventDefault();
+            var tr = $(this).closest('tr');
+            var row = dt.row(tr);
+            var rowData = row.data();
+
+            confirmModal(`Vui lòng xác nhận từ chối đơn xin nghỉ phép của nhân viên: ${rowData.register_name}`, () => rejectAbsent(rowData));
+          });
+        });
+      }
+
+      function rejectAbsent(params) {
+        $.post(window.homePath + "ajax/rejectabsent.php", params, (data) => {
+          if (data.success) {
+            Lobibox.notify("success", {
+              msg: data.success
+            });
+          } else {
+            Lobibox.notify("error", {
+              msg: data.error
+            });
+          }
+        }, "json")
+          .always(function () {
+            $('#dataTableAbsent').DataTable().ajax.reload();//reload dữ liệu
+          });
+      }
+
+      loadAbsentList();
+      getUserList();
+
+      $('#reloadAbsentData').click(function (e, t) {
+        $('#dataTableAbsent').DataTable().ajax.reload();//reload dữ liệu
+      });
+
+      $('#acceptAbsent').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+
+        var absentInfo = (button.data('task')) // Extract info from data-* attributes
+        var modal = $(this);
+        Object.keys(absentInfo).map(item => {
+          if (item !== 'password') {
+            modal.find('.modal-body input[name=' + item + ']').val(absentInfo[item]);
+            modal.find('.modal-body select[name=' + item + ']').val(absentInfo[item]);
+            modal.find('.modal-body textarea[name=' + item + ']').val(absentInfo[item]);
+          }
+          if (item == "attachment") {
+            if ($(".downloadlinks").length) {
+              try {
+                $(".downloadlinks").html("");
+                var downloadLinks = JSON.parse(absentInfo[item]);
+                downloadLinks.map(item => {
+                  const anchor = document.createElement('a');
+                  anchor.href = window.homePath + item;
+                  let filename = item.split("/")[1] ? item.split("/")[1] : item;
+                  let arr = filename.split(".");
+                  anchor.innerText = limitCharacter(arr[0], 30) + "." + arr[1];
+                  const li = document.createElement('li');
+                  li.appendChild(anchor);
+                  $(".downloadlinks").append(li);
+                })
+
+              } catch {
+                console.log("cant not parse attachment data");
+              }
+            }
+          }
+        })
+        modal.find('.modal-title').text('Đồng ý đơn xin phép nghỉ - ' + absentInfo['register_name'])
+      });
+
+      $('#viewAbsent').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+
+        var absentInfo = (button.data('task')) // Extract info from data-* attributes
+        var modal = $(this);
+        Object.keys(absentInfo).map(item => {
+          if (item !== 'password') {
+            modal.find('.modal-body input[name=' + item + ']').val(absentInfo[item]);
+            modal.find('.modal-body select[name=' + item + ']').val(absentInfo[item]);
+            modal.find('.modal-body textarea[name=' + item + ']').val(absentInfo[item]);
+          }
+          if (item == "attachment") {
+            if ($(".downloadlinks").length) {
+              try {
+                $(".downloadlinks").html("");
+                var downloadLinks = JSON.parse(absentInfo[item]);
+                downloadLinks.map(item => {
+                  const anchor = document.createElement('a');
+                  anchor.href = window.homePath + item;
+                  let filename = item.split("/")[1] ? item.split("/")[1] : item;
+                  let arr = filename.split(".");
+                  anchor.innerText = limitCharacter(arr[0], 30) + "." + arr[1];
+                  const li = document.createElement('li');
+                  li.appendChild(anchor);
+                  $(".downloadlinks").append(li);
+                })
+
+              } catch {
+                console.log("cant not parse attachment data");
+              }
+            }
+          }
+        })
+        modal.find('.modal-title').text('Xem thông tin nghỉ phép - ' + absentInfo['register_name'])
+      });
+
+      $('#editAbsent').on('hidden.bs.modal', function (e) {
+        $.post(window.homePath + "ajax/resetabsentattachment.php", {}, (data) => {
+          var objDZ = Dropzone.forElement("#fileDropZone");
+          objDZ.removeAllFiles(true);
+          var objDZ = Dropzone.forElement("#createAbsentFileDropZone");
+          objDZ.removeAllFiles(true);
+        });
+      });
+
+      $('#createAbsent').on('hidden.bs.modal', function (e) {
+        $('#createAbsentForm')[0].reset();
+      });
+
+      $('#editAbsentSaveButton').click(function () {
+        $.post(window.homePath + "ajax/edittask.php", $('#editAbsentForm').serialize(), (data) => {
+          if (data.success) {
+            Lobibox.notify("success", {
+              msg: data.success
+            });
+          } else {
+            Lobibox.notify("error", {
+              msg: data.error
+            });
+          }
+          $('#editAbsent').modal('hide');
+        }, "json")
+          .always(function () {
+            $('#dataTableAbsent').DataTable().ajax.reload();//reload dữ liệu
+          });
+        return false;
+      });
+
+      $('#createAbsentSaveButton').click(function () {
+        $.post(window.homePath + "ajax/createabsent.php", $('#createAbsentForm').serialize(), (data) => {
+          if (data.success) {
+            Lobibox.notify("success", {
+              msg: data.success
+            });
+          } else {
+            Lobibox.notify("error", {
+              msg: data.error
+            });
+          }
+          $('#createAbsent').modal('hide');
+        }, "json")
+          .always(function () {
+            $('#dataTableAbsent').DataTable().ajax.reload();//reload dữ liệu
+          });
+        return false;
+      });
+
+      $('#acceptAbsentButton').click(function () {
+        $.post(window.homePath + "ajax/acceptabsent.php", $('#acceptAbsentForm').serialize(), (data) => {
+          if (data.success) {
+            Lobibox.notify("success", {
+              msg: data.success
+            });
+          } else {
+            Lobibox.notify("error", {
+              msg: data.error
+            });
+          }
+          $('#acceptAbsent').modal('hide');
+        }, "json")
+          .always(function () {
+            $('#dataTableAbsent').DataTable().ajax.reload();//reload dữ liệu
+          });
+        return false;
+      });
+
+      function getUserList() {
+        $.get(window.homePath + "ajax/userlist.php", { role: "user" }, (data) => {
+
+          $.each(data, function (key, value) {
+            $('select[name="assign_id"]')
+              .append($("<option></option>")
+                .attr("value", value.id)
+                .text(value.name));
+          });
+        }, "json");
+      }
+
+      $.post(window.homePath + "ajax/resetabsentattachment.php", {}, (data) => {
+      });
+    }
+
+    function confirmModal(content, nextaction) {
+      $('#confirmModal').find('.modal-body span').html(content);
+      $('#confirmModal').find('.modal-title').html(content);
+      $('#confirmModal').modal();
+
+      $('#confirmModal .modal-footer button.btn-primary').bind("click", function () {
+        $('#confirmModal .modal-footer button.btn-primary').unbind("click");
+        nextaction();
+        $('#confirmModal').modal('hide');
+        $('#confirmModal .modal-footer button.btn-primary').off();
+        return false;
+      });
+    }
+
+    $('#confirmModal').on('hidden.bs.modal', function () {
+      $('#confirmModal .modal-footer button.btn-primary').off();
+      $('#confirmModal .modal-footer button.btn-primary').unbind("click");
+    });
   });
 })(jQuery);

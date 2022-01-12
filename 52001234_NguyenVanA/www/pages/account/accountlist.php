@@ -18,7 +18,7 @@ checkPermission("admin", true);
 							<h6 class="card-title">Danh sách tài khoản</h6>
 							<p class="card-description">
 								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createAccount" data-account="">Tạo tài khoản</button>
-								<a id="reloadDataButton" href="javascript:void(0)"> Tải lại </a>
+								<button type="button" class="btn btn-primary" id="reloadDataButton">Tải lại</button>
 							</p>
 							<div class="table-responsive">
 							<table id="dataTableAccount" class="table">

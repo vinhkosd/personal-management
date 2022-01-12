@@ -18,7 +18,7 @@ checkPermission("admin", true);
 							<h6 class="card-title">Danh sách phòng ban</h6>
 							<p class="card-description">
 								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createPhongBan" data-phongban="">Tạo phòng ban</button>
-								<a id="reloadPhongBan" href="javascript:void(0)"> Tải lại </a>
+								<button type="button" class="btn btn-primary" id="reloadPhongBan">Tải lại</button>
 							</p>
 							<div class="table-responsive">
 							<table id="dataTablePhongBan" class="table">
