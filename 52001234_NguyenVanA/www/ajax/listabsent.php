@@ -35,8 +35,14 @@ if(!empty($orderBy) && !empty($orderBy['data']) && $orderBy['orderable']) {
 if($_SESSION["role"] == "god") {//giám đốc
     $absentList->where("users.role", "admin");
 }elseif($_SESSION["role"] == "admin") {//trưởng phòng
-    $absentList->where("users.phongban_id", $_SESSION['phongban_id']);
-    $absentList->where("users.role", "user");
+    
+    $absentList->where(function($query) {
+        $query->where(function($subQuery) {
+            $subQuery->where("users.phongban_id", $_SESSION['phongban_id']);
+            $subQuery->where("users.role", "user");
+        })
+        ->orWhere("absent.register_id", $_SESSION['accountId']);
+    });
 }else{//user
     $absentList->where("absent.register_id", $_SESSION['accountId']);
 }

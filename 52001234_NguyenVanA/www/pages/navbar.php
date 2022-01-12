@@ -40,7 +40,7 @@
                   }
                 ?>
 
-                <?php if (checkPermission("user"))
+                <?php if (!checkPermission("god"))
                   {
                 ?>
                   <li class="nav-item">

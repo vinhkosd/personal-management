@@ -9,6 +9,13 @@ requirePerm("god");
 if(isset($_POST)){
     $input = collect($_POST)->only(['name', 'imageurl', 'username', 'active', 'phongban_id'])->toArray();
 
+    $input['phongban_id'] = $input['phongban_id'] ?? null;
+
+    if(!is_numeric($input['phongban_id'])) {
+        echo(json_encode(['error' => 'Phòng ban không hợp lệ!']));
+        die();
+    }
+
     $phongBanInfo = Users::where('id', $input['phongban_id'])->first();
 
     $accountInfo = Users::where('username', $input['username'])->first();
