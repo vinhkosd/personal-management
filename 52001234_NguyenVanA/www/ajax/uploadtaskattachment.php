@@ -1,6 +1,9 @@
 <?php
 session_start();
 $target_dir = "../uploads/";
+if (!file_exists($target_dir)) {
+    mkdir($target_dir, 0777, true);
+}
 $target_file = $target_dir . "-" . time() . "-" . basename($_FILES["file"]["name"]);
 $fileName = "uploads/". "-" . time() . "-" . basename($_FILES["file"]["name"]);
 $_SESSION['tmpfiles'] = !empty($_SESSION['tmpfiles']) ? $_SESSION['tmpfiles'] : [];

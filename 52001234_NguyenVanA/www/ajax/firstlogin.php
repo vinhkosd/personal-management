@@ -31,6 +31,9 @@ if(isset($_POST)){
         $check = getimagesize($_FILES["imageurl"]["tmp_name"]);
 
         $target_dir = "../uploads/";
+        if (!file_exists($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
         $target_file = $target_dir . $input['username']. "-" . time() . "-" . basename($_FILES["imageurl"]["name"]);
         $imageurl = "uploads/" . $input['username']. "-" . time() . "-" . basename($_FILES["imageurl"]["name"]);
 
