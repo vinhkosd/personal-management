@@ -16,7 +16,7 @@ if(isset($_POST)){
         die();
     }
 
-    $phongBanInfo = Users::where('id', $input['phongban_id'])->first();
+    $phongBanInfo = PhongBan::where('id', $input['phongban_id'])->first();
 
     $accountInfo = Users::where('username', $input['username'])->first();
     
