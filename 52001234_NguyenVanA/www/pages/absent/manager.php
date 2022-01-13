@@ -77,7 +77,7 @@ checkPermission("user", true);
 						<label for="countdate" class="col-form-label">Số ngày muốn nghỉ:</label>
 						<select class="form-control" name="countdate" required>
 							<?php
-                                for($i = 1; $i < 15; $i++){
+                                for($i = 1; $i <= 15; $i++){
                                     echo "<option value=\"$i\">$i ngày</option>";
                                 }
                             ?>

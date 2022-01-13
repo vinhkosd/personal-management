@@ -1126,7 +1126,7 @@
         dt.on('draw', function () {
           if(dt.ajax.json()) {
             var dataJson = dt.ajax.json();
-            if(dataJson.absentRemain){
+            if(dataJson.absentMax){
               $("#absent-remain").html(dataJson.absentRemain);
               $("#absent-max").html(dataJson.absentMax);
               $("#absent-total").html(dataJson.absentTotal);

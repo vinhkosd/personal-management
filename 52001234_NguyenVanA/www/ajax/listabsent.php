@@ -58,7 +58,7 @@ $dataReturn['recordsTotal'] = $dataReturn['totalRecord'];
 $dataReturn['recordsFiltered'] = $dataReturn['totalRecord'];
 if($_SESSION["role"] != "god") {
     $absentMax = $_SESSION["role"] == "admin" ? 15 : 12;
-    $totalAbsent = Absent::where("register_id", $_SESSION['accountId'])->whereRaw("YEAR(time) > YEAR(DATE_SUB(CURDATE(), INTERVAL 1 YEAR))")->count();
+    $totalAbsent = Absent::where("register_id", $_SESSION['accountId'])->where("status", 1)->whereRaw("YEAR(time) > YEAR(DATE_SUB(CURDATE(), INTERVAL 1 YEAR))")->sum("countdate");
     $dataReturn['absentRemain'] = $absentMax - $totalAbsent;
     $dataReturn['absentTotal'] = $totalAbsent;
     $dataReturn['absentMax'] = $absentMax;

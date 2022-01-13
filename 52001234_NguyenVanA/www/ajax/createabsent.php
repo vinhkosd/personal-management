@@ -30,17 +30,21 @@ if(isset($_POST)){
         $dateNow = Carbon::now();
 
         $lastAbsentRegTime = Carbon::parse($currentPendingAbsent['time'])->addDays(7);
-        var_dump($dateNow->diffInMinutes($lastAbsentRegTime, false));
-        die();
+        
         if($dateNow->diffInMinutes($lastAbsentRegTime, false) > 0) {
             echo(json_encode(['error' => 'Mỗi 7 ngày mới được đăng ký nghỉ phép 1 lần, không thể đăng ký nghỉ phép!']));
             die();
         }
 
         $absentMax = $_SESSION["role"] == "admin" ? 15 : 12;
-        $totalAbsent = Absent::where("register_id", $_SESSION['accountId'])->whereRaw("YEAR(time) > YEAR(DATE_SUB(CURDATE(), INTERVAL 1 YEAR))")->count();
+        $totalAbsent = Absent::where("register_id", $_SESSION['accountId'])->where("status", 1)->whereRaw("YEAR(time) > YEAR(DATE_SUB(CURDATE(), INTERVAL 1 YEAR))")->sum("countdate");
         if($totalAbsent >= $absentMax) {
             echo(json_encode(['error' => 'Bạn đã đăng ký hết số ngày nghỉ phép trong năm!']));
+            die();
+        }
+
+        if($input['countdate'] + $totalAbsent > $absentMax) {
+            echo(json_encode(['error' => 'Số ngày nghỉ vượt quá số ngày còn lại của bạn!']));
             die();
         }
     }
